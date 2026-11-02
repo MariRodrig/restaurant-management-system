@@ -44,6 +44,14 @@ O projeto utiliza Java e Maven.
 3. Execute o método `main()` da classe `Menu`.
 4. Utilize as opções exibidas no console para interagir com o sistema.
 
+## Demonstração do projeto
+
+O vídeo apresenta as funcionalidades implementadas nesta primeira etapa do bootcamp.
+
+Para melhor visualização do código, recomendamos assistir ao vídeo em 1080p (Full HD).
+
+🎥 [Assistir à demonstração do projeto](https://youtu.be/ElDz3q07NQU)
+
 ## Testes
 
 Foram implementados três testes unitários na classe `RestauranteTest`, utilizando JUnit 5.
