@@ -1,9 +1,6 @@
-package menu;
+package console;
 
-import app.MenuConsole;
-import app.RestauranteFacade;
-import cardapio.Lanche;
-import pedido.GerenciadorPedidos;
+import facade.RestauranteFacade;
 import pedido.Pedido;
 
 public class Menu {

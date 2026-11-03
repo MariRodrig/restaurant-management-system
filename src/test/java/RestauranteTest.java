@@ -1,4 +1,4 @@
-import cardapio.ComCheddar;
+import cardapio.decorator.ComCheddar;
 import cardapio.ItemCardapio;
 import cardapio.Lanche;
 import cardapio.LancheFactory;

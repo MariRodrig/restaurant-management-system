@@ -1,4 +1,4 @@
-package app;
+package facade;
 
 import pedido.GerenciadorPedidos;
 import pedido.Pedido;
