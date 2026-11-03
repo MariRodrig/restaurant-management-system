@@ -1,8 +1,10 @@
-package cardapio;
+package cardapio.decorator;
 
-public class ComBaconExtra extends ItemCardapioDecorator{
+import cardapio.ItemCardapio;
 
-    public ComBaconExtra(ItemCardapio itemCardapio){
+public class ComCheddar extends ItemCardapioDecorator {
+
+    public ComCheddar(ItemCardapio itemCardapio){
         super(itemCardapio);
     }
 
@@ -13,11 +15,11 @@ public class ComBaconExtra extends ItemCardapioDecorator{
 
     @Override
     public String getDescricao() {
-        return super.getDescricao() + " + bacon extra";
+        return super.getDescricao() + " + cheddar";
     }
 
     @Override
     public double getPreco() {
-        return super.getPreco() + 6.00;
+        return super.getPreco() + 4.00;
     }
 }

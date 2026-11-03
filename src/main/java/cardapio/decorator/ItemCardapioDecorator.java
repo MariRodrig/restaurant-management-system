@@ -1,6 +1,8 @@
-package cardapio;
+package cardapio.decorator;
 
-public class ItemCardapioDecorator implements  ItemCardapio{
+import cardapio.ItemCardapio;
+
+public class ItemCardapioDecorator implements ItemCardapio {
 
     protected final ItemCardapio itemCardapioEmbrulhado;
 

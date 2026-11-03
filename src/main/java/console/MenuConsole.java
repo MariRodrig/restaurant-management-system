@@ -1,6 +1,8 @@
-package app;
+package console;
 
 import cardapio.*;
+import cardapio.decorator.ComBaconExtra;
+import cardapio.decorator.ComCheddar;
 import pedido.GerenciadorPedidos;
 import pedido.Pedido;
 
