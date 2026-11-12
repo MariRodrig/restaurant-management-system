@@ -19,9 +19,11 @@ public class MenuConsole {
     public void exibirMenu() {
         System.out.println("=== RESTAURANTE === ");
         System.out.println("1 - Registrar novo pedido");
-        System.out.println("2 - Buscar pedido");
+        System.out.println("2 - Consultar / Modificar pedido");
         System.out.println("3 - Listar pedidos do dia");
-        System.out.println("4 - Fechamento do dia");
+        System.out.println("4 - Concluir pedido");
+        System.out.println("5 - Cancelar pedido");
+        System.out.println("6 - Fechamento do dia");
         System.out.println("0 - Sair");
     }
 
@@ -160,7 +162,7 @@ public class MenuConsole {
                 opcao = sc.nextInt();
                 sc.nextLine();
 
-                if (opcao >= 0 && opcao <= 4) {
+                if (opcao >= 0 && opcao <= 6) {
                     return opcao;
                 }
 
@@ -282,7 +284,7 @@ public class MenuConsole {
     public int escolherPedido() {
         while (true) {
             try {
-                System.out.println("Digite o número do pedido que deseja modificar:");
+                System.out.println("Digite o número do pedido que deseja consultar ou modificar:");
 
                 int numeroPedido = sc.nextInt();
                 sc.nextLine();
@@ -362,6 +364,37 @@ public class MenuConsole {
 
     public void exibirMensagem(String mensagem) {
         System.out.println(mensagem);
+    }
+
+
+    public double escolherGorjeta(){
+
+        System.out.println("Deseja adicionar gorjeta?");
+        System.out.println("1 - Gorjeta de 10%");
+        System.out.println("2 - Informar outro percentual");
+        System.out.println("3 - Sem gorjeta");
+
+        int opcao = sc.nextInt();
+
+        switch (opcao) {
+            case 1 -> {
+                return 10.0;
+            }
+            case 2 -> {
+                System.out.println("Digite o percentual da gorjeta:");
+
+                double percentual = sc.nextDouble();
+                sc.nextLine();
+
+                return percentual;
+            }
+            case 3 ->  {
+                return 0.0;
+            }
+            default -> {
+                throw new IllegalArgumentException("Opção inválida.");
+            }
+        }
     }
 }
 
