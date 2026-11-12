@@ -65,4 +65,9 @@ public class RestauranteFacade {
         return caixa.calcularTotalGorjetas();
     }
 
+
+    public boolean existeTransacao(Transacao transacao) {
+        return caixa.existeTransacao(transacao);
+    }
+
 }
