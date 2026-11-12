@@ -4,12 +4,17 @@ import cardapio.ItemCardapio;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class GerenciadorPedidos {
 
     private final HashMap<Integer, Pedido> pedidos = new HashMap<>();
     private int contadorPedidos = 1;
+
+    public Map<Integer, Pedido> getPedidos() {
+        return pedidos;
+    }
 
     public Pedido criarPedido(String nomeCliente) {
 
@@ -28,28 +33,18 @@ public class GerenciadorPedidos {
         return pedidos.get(numero);
     }
 
-    public double calcularTotalDoDia() {
-        double totalDoDia = 0;
-
-        for (Pedido pedido : pedidos.values()) {
-            totalDoDia += pedido.calcularTotal();
-        }
-        return totalDoDia;
-
-    }
-
     public void listarPedidos() {
-        for (Pedido pedido : pedidos.values()) {
-            System.out.println(pedido);
-        }
-    }
+        boolean isPedidoEncontrado = false;
 
-    public boolean cancelarPedido(int numeroPedido) {
-        if (pedidos.containsKey(numeroPedido)) {
-            pedidos.remove(numeroPedido);
-            return true;
+        for (Pedido pedido : pedidos.values()) {
+            if (pedido.getStatusPedido() != StatusPedido.CANCELADO) {
+                System.out.println(pedido);
+                isPedidoEncontrado = true;
+            }
         }
-        return false;
+        if (!isPedidoEncontrado) {
+            System.out.println("Nenhum pedido disponível.");
+        }
     }
 
     public void listarCombinacoes() {
@@ -69,4 +64,31 @@ public class GerenciadorPedidos {
 
         System.out.println("Total de combinações diferentes: " + combinacoes.size());
     }
+
+    public Pedido finalizarPedido(int numeroPedido) {
+
+        Pedido pedido = pedidos.get(numeroPedido);
+
+        if (pedido != null) {
+            pedido.finalizarPedido();
+        } else {
+            throw new IllegalArgumentException("Pedido não encontrado");
+        }
+
+        return pedido;
+    }
+
+
+    public Pedido cancelarPedido(int numeroPedido) {
+
+        Pedido pedido = pedidos.get(numeroPedido);
+
+        if (pedido != null) {
+            pedido.cancelarPedido();
+        } else {
+            throw new IllegalArgumentException("Pedido não encontrado");
+        }
+        return pedido;
+    }
+
 }

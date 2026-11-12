@@ -10,10 +10,13 @@ public class Pedido {
 
     private int identificador;
     private String nome;
+    private StatusPedido statusPedido;
+    private double percentualGorjeta;
 
     public Pedido(int identificador, String nome) {
         this.identificador = identificador;
         this.setNome(nome);
+        this.statusPedido = StatusPedido.ABERTO;
     }
 
     @Override
@@ -21,7 +24,12 @@ public class Pedido {
         return "Pedido nº " + identificador +
                 "\nCliente: " + nome +
                 "\nItens: " + itens +
-                "\nTotal: R$ " + calcularTotal();
+                "\nTotal: R$ " + calcularTotal() +
+                "\nStatus: " + statusPedido;
+    }
+
+    public StatusPedido getStatusPedido() {
+        return statusPedido;
     }
 
     public int getIdentificador() {
@@ -39,9 +47,26 @@ public class Pedido {
         this.nome = nome;
     }
 
+    public void setPercentualGorjeta(double percentualGorjeta){
+
+        if (statusPedido != StatusPedido.ABERTO) {
+            throw new IllegalStateException(
+                    "Não é possível alterar a gorjeta de um pedido finalizado ou cancelado."
+            );
+        }
+
+        if (percentualGorjeta < 0 ){
+            throw new IllegalArgumentException("O percentual não pode ser negativo.");
+        }
+        this.percentualGorjeta = percentualGorjeta;
+    }
+
     private ArrayList<ItemCardapio> itens = new ArrayList<>();
 
     public void adicionarItem(ItemCardapio itemCardapio) {
+        if (statusPedido != StatusPedido.ABERTO) {
+            throw new IllegalStateException("Não é possível adicionar itens a este pedido.");
+        }
         itens.add(itemCardapio);
     }
 
@@ -59,12 +84,41 @@ public class Pedido {
         return total;
     }
 
+    public double calcularGorjeta() {
+
+        return (calcularTotal() * percentualGorjeta) / 100;
+    }
+
+
     public void removerItem(int indice) {
+        if (statusPedido != StatusPedido.ABERTO){
+            throw new IllegalStateException("Não é possível remover itens deste pedido.");
+        }
         if (indice >= 0 && indice < itens.size()) {
             itens.remove(indice);
             System.out.println("Item removido com sucesso!");
         } else {
             System.out.println("Item inválido.");
         }
+    }
+
+    public void finalizarPedido() {
+        if (statusPedido == StatusPedido.FINALIZADO) {
+            throw new IllegalStateException("Pedido já foi finalizado anteriormente.");
+        }
+        if (statusPedido == StatusPedido.CANCELADO) {
+            throw new IllegalStateException("Não é possível finalizar um pedido cancelado.");
+        }
+        this.statusPedido = StatusPedido.FINALIZADO;
+    }
+
+    public void cancelarPedido() {
+        if (statusPedido == StatusPedido.FINALIZADO) {
+            throw new IllegalStateException("Pedido já foi finalizado, não é possível cancelar.");
+        }
+        if (statusPedido == StatusPedido.CANCELADO) {
+            throw new IllegalStateException("Pedido já foi cancelado.");
+        }
+        this.statusPedido = StatusPedido.CANCELADO;
     }
 }
