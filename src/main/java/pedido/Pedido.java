@@ -1,8 +1,6 @@
 package pedido;
 
 import cardapio.ItemCardapio;
-import cardapio.Lanche;
-import lombok.Setter;
 
 import java.util.ArrayList;
 
@@ -12,6 +10,7 @@ public class Pedido {
     private String nome;
     private StatusPedido statusPedido;
     private double percentualGorjeta;
+    private double percentualDesconto;
 
     public Pedido(int identificador, String nome) {
         this.identificador = identificador;
@@ -47,7 +46,7 @@ public class Pedido {
         this.nome = nome;
     }
 
-    public void setPercentualGorjeta(double percentualGorjeta){
+    public void setPercentualGorjeta(double percentualGorjeta) {
 
         if (statusPedido != StatusPedido.ABERTO) {
             throw new IllegalStateException(
@@ -55,7 +54,7 @@ public class Pedido {
             );
         }
 
-        if (percentualGorjeta < 0 ){
+        if (percentualGorjeta < 0) {
             throw new IllegalArgumentException("O percentual não pode ser negativo.");
         }
         this.percentualGorjeta = percentualGorjeta;
@@ -86,12 +85,12 @@ public class Pedido {
 
     public double calcularGorjeta() {
 
-        return (calcularTotal() * percentualGorjeta) / 100;
+        return (calcularTotalComDesconto() * percentualGorjeta) / 100;
     }
 
 
     public void removerItem(int indice) {
-        if (statusPedido != StatusPedido.ABERTO){
+        if (statusPedido != StatusPedido.ABERTO) {
             throw new IllegalStateException("Não é possível remover itens deste pedido.");
         }
         if (indice >= 0 && indice < itens.size()) {
@@ -120,5 +119,25 @@ public class Pedido {
             throw new IllegalStateException("Pedido já foi cancelado.");
         }
         this.statusPedido = StatusPedido.CANCELADO;
+    }
+
+    public void aplicarDesconto(double percentual) {
+        if (percentual < 0 || percentual > 100){
+            throw new IllegalArgumentException("Percentual de desconto inválido!");
+        }
+
+        if (statusPedido != StatusPedido.ABERTO){
+            throw new IllegalStateException("Não é possível aplicar desconto em um pedido fechado");
+        }
+
+        this.percentualDesconto = percentual;
+    }
+
+    public double calcularTotalComDesconto() {
+
+        double total = calcularTotal();
+        double valorDesconto = (calcularTotal() * percentualDesconto) / 100;
+
+        return total - valorDesconto;
     }
 }

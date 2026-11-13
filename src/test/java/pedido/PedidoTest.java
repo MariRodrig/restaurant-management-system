@@ -1,6 +1,7 @@
 package pedido;
 
 import cardapio.LancheFactory;
+import financeiro.Caixa;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -66,7 +67,7 @@ public class PedidoTest {
     }
 
     @Test
-    void deveCalcularGorjetaDeDezPorCento(){
+    void deveCalcularGorjetaDeDezPorCento() {
         Pedido pedido = new Pedido(1, "Maria");
 
         pedido.adicionarItem(LancheFactory.xBurger());
@@ -78,7 +79,7 @@ public class PedidoTest {
     }
 
     @Test
-    void deveCalcularGorjetaPersonalizada(){
+    void deveCalcularGorjetaPersonalizada() {
         Pedido pedido = new Pedido(1, "Maria");
 
         pedido.adicionarItem(LancheFactory.xBurger());
@@ -88,14 +89,14 @@ public class PedidoTest {
     }
 
     @Test
-    void naoDeveAceitarGorjetaNegativa(){
+    void naoDeveAceitarGorjetaNegativa() {
         Pedido pedido = new Pedido(1, "Maria");
 
         assertThrows(IllegalArgumentException.class, () -> pedido.setPercentualGorjeta(-10.0));
     }
 
     @Test
-    void naoDeveAlterarGorjetaDePedidoFinalizado(){
+    void naoDeveAlterarGorjetaDePedidoFinalizado() {
         Pedido pedido = new Pedido(1, "Maria");
 
         pedido.finalizarPedido();
@@ -103,11 +104,76 @@ public class PedidoTest {
     }
 
     @Test
-    void naoDeveAlterarGorjetaDePedidoCancelado(){
+    void naoDeveAlterarGorjetaDePedidoCancelado() {
         Pedido pedido = new Pedido(1, "Maria");
 
         pedido.cancelarPedido();
         assertThrows(IllegalStateException.class, () -> pedido.setPercentualGorjeta(5.0));
     }
 
+    @Test
+    void deveCalcularTotalComDescontoDeDezPorCento() {
+        Pedido pedido = new Pedido(1, "Maria");
+        pedido.adicionarItem(LancheFactory.xBurger());
+
+        pedido.aplicarDesconto(10.0);
+
+        assertEquals(14.40, pedido.calcularTotalComDesconto(), 0.001);
+    }
+
+    @Test
+    void naoDevePermitirDescontoNegativo() {
+        Pedido pedido = new Pedido(1, "Maria");
+
+        assertThrows(IllegalArgumentException.class, () -> pedido.aplicarDesconto(-10.0));
+    }
+
+    @Test
+    void naoDevePermitirDescontoSuperiorACemPorCento() {
+        Pedido pedido = new Pedido(1, "Maria");
+
+        assertThrows(IllegalArgumentException.class, () -> pedido.aplicarDesconto(110.0));
+    }
+
+    @Test
+    void naoDevePermitirDescontoEmPedidoFinalizado(){
+        Pedido pedido = new Pedido(1, "Maria");
+
+        pedido.finalizarPedido();
+        assertThrows(IllegalStateException.class, () -> pedido.aplicarDesconto(10.0));
+    }
+
+    @Test
+    void naoDevePermitirDescontoEmPedidoCancelado() {
+        Pedido pedido = new Pedido(1, "Maria");
+
+        pedido.cancelarPedido();
+
+        assertThrows(IllegalStateException.class, () -> pedido.aplicarDesconto(10.0));
+    }
+
+    @Test
+    void deveCalcularTotalDoDiaConsiderandoDescontos() {
+        GerenciadorPedidos gerenciador = new GerenciadorPedidos();
+        Caixa caixa = new Caixa(gerenciador);
+
+        Pedido pedido = gerenciador.criarPedido("Maria");
+        pedido.adicionarItem(LancheFactory.xBurger());
+
+        pedido.aplicarDesconto(10.0);
+        pedido.finalizarPedido();
+
+        assertEquals(14.40, caixa.calcularTotalDoDia(), 0.001);
+    }
+
+    @Test
+    void deveCalcularGorjetaSobreTotalComDesconto() {
+        Pedido pedido = new Pedido(1, "Maria");
+        pedido.adicionarItem(LancheFactory.xBurger());
+
+        pedido.aplicarDesconto(10.0);
+        pedido.setPercentualGorjeta(10.0);
+
+        assertEquals(1.44, pedido.calcularGorjeta(), 0.001);
+    }
 }

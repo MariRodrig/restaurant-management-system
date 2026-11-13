@@ -15,6 +15,11 @@ O sistema simula o gerenciamento de um restaurante por meio de um menu no consol
 - Cálculo do total de cada pedido e do faturamento do dia.
 - Contagem das diferentes combinações de lanches vendidos.
 - Tratamento de entradas inválidas, permitindo novas tentativas sem interromper o programa.
+- Aplicação de descontos percentuais nos pedidos. 
+- Validação de descontos entre 0% e 100%. 
+- Restrição de descontos em pedidos finalizados ou cancelados. 
+- Cálculo da gorjeta sobre o valor após o desconto. 
+- Fechamento financeiro considerando os descontos aplicados.
 
 ## Organização do projeto
 
@@ -62,9 +67,21 @@ Para melhor visualização do código, recomendamos assistir ao vídeo em 1080p 
 
 ## Testes
 
-Foram implementados três testes unitários na classe `RestauranteTest`, utilizando JUnit 5.
+O projeto possui testes automatizados utilizando **JUnit 5**, abrangendo validações, regras de negócio e cálculos financeiros.
 
-Os testes verificam a rejeição de preços negativos, o cálculo do preço de um lanche com adicional e a validação de um nome de cliente nulo.
+Os testes verificam cenários como rejeição de preços negativos, cálculo de lanches com adicionais, validação de nomes de clientes e operações relacionadas aos pedidos.
+
+### Desenvolvimento orientado a testes (TDD)
+
+A funcionalidade de descontos foi desenvolvida utilizando a metodologia **TDD (Test-Driven Development)**, seguindo o ciclo **RED → GREEN → REFACTOR**.
+
+Foram implementados testes para validar:
+
+- Cálculo de descontos percentuais.
+- Rejeição de descontos negativos ou superiores a 100%.
+- Restrição de descontos em pedidos finalizados ou cancelados.
+- Cálculo de gorjetas considerando os descontos.
+- Integração dos descontos ao fechamento financeiro.
 
 ## Considerações finais
 

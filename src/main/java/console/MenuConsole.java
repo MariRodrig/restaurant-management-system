@@ -24,6 +24,7 @@ public class MenuConsole {
         System.out.println("4 - Concluir pedido");
         System.out.println("5 - Cancelar pedido");
         System.out.println("6 - Fechamento do dia");
+        System.out.println("7 - Aplicar desconto ao pedido");
         System.out.println("0 - Sair");
     }
 
@@ -162,7 +163,7 @@ public class MenuConsole {
                 opcao = sc.nextInt();
                 sc.nextLine();
 
-                if (opcao >= 0 && opcao <= 6) {
+                if (opcao >= 0 && opcao <= 7) {
                     return opcao;
                 }
 
@@ -367,7 +368,7 @@ public class MenuConsole {
     }
 
 
-    public double escolherGorjeta(){
+    public double escolherGorjeta() {
 
         System.out.println("Deseja adicionar gorjeta?");
         System.out.println("1 - Gorjeta de 10%");
@@ -388,7 +389,7 @@ public class MenuConsole {
 
                 return percentual;
             }
-            case 3 ->  {
+            case 3 -> {
                 return 0.0;
             }
             default -> {
@@ -396,7 +397,17 @@ public class MenuConsole {
             }
         }
     }
+
+    public double escolherDesconto() {
+        System.out.println("Digite o percentual de desconto: ");
+
+        double percentual = sc.nextDouble();
+        sc.nextLine();
+
+        return percentual;
+    }
 }
+
 
 
 

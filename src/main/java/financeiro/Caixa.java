@@ -22,7 +22,7 @@ public class Caixa {
 
         for (Pedido pedido : gerenciadorPedidos.getPedidos().values()) {
             if (pedido.getStatusPedido() == StatusPedido.FINALIZADO) {
-                totalDoDia += pedido.calcularTotal();
+                totalDoDia += pedido.calcularTotalComDesconto();
             }
         }
         return totalDoDia;

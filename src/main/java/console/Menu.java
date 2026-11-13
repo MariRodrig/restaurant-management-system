@@ -135,6 +135,26 @@ public class Menu {
 
                     }
 
+                    case 7 -> {
+                        int numeroPedido = menuConsole.escolherPedido();
+
+                        try {
+                            double percentual = menuConsole.escolherDesconto();
+                            Pedido pedido = restauranteFacade.buscarPedido(numeroPedido);
+
+                            if (pedido == null) {
+                                menuConsole.exibirMensagem("Pedido não encontrado.");
+                            } else {
+                                pedido.aplicarDesconto(percentual);
+
+                                menuConsole.exibirMensagem(
+                                        "Total com desconto: R$ " + pedido.calcularTotalComDesconto()
+                                );
+                            }
+                        }catch  (IllegalArgumentException | IllegalStateException e) {
+                            menuConsole.exibirMensagem(e.getMessage());
+                        }
+                    }
                     case 0 -> menuConsole.exibirMensagem("Programa finalizado.");
                     default -> menuConsole.exibirMensagem("Opção inválida. Digite uma das opções válidas.");
                 }
