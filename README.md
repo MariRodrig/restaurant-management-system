@@ -36,14 +36,22 @@ O projeto foi dividido em quatro pacotes:
 - **JUnit 5:** testes para validação de preço, cálculo com adicional e rejeição de nome de cliente nulo.
 
 ## Como executar
+O projeto utiliza Java 17 e Maven.
 
-O projeto utiliza Java e Maven.
-
+### Opção 1 — Pelo IntelliJ IDEA
 1. Clone o repositório e abra o projeto no IntelliJ IDEA.
 2. Aguarde o carregamento das dependências do Maven.
-3. Execute o método `main()` da classe `Menu`.
-4. Utilize as opções exibidas no console para interagir com o sistema.
+3. Execute o método main() da classe Menu.
+4. Utilize as opções exibidas no console.
+### Opção 2 — Pelo arquivo JAR
+1. Certifique-se de que o Java 17 e o Maven estejam instalados.
+2. Abra o terminal na pasta raiz do projeto.
+3. Gere o executável:
+   mvn clean package
 
+
+4. Execute o arquivo gerado:
+   java -jar target/restaurant-management-system-1.0-SNAPSHOT.jar
 ## Demonstração do projeto
 
 O vídeo apresenta as funcionalidades implementadas nesta primeira etapa do bootcamp.
