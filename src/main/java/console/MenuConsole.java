@@ -282,10 +282,10 @@ public class MenuConsole {
         }
     }
 
-    public int escolherPedido() {
+    public int escolherPedido(String acao) {
         while (true) {
             try {
-                System.out.println("Digite o número do pedido que deseja consultar ou modificar:");
+                System.out.println("Digite o número do pedido que deseja " + acao + ":");
 
                 int numeroPedido = sc.nextInt();
                 sc.nextLine();
@@ -295,8 +295,6 @@ public class MenuConsole {
                 }
 
                 System.out.println("Número inválido! Digite um número maior que zero.");
-
-                return numeroPedido;
 
             } catch (InputMismatchException e) {
                 System.out.println("Digite apenas números!");

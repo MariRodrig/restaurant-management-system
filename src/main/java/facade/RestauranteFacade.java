@@ -33,18 +33,10 @@ public class RestauranteFacade {
         return gerenciadorPedidos.cancelarPedido(numeroPedido);
     }
 
-    public void listarCombinacoes() {
-        gerenciadorPedidos.listarCombinacoes();
-    }
-
     public Pedido finalizarPedido(int numeroPedido) {
         Pedido pedido = gerenciadorPedidos.buscarPedido(numeroPedido);
 
-        if (pedido == null){
-            throw new IllegalArgumentException("Pedido não encontrado!");
-        }
-
-        Transacao transacao = new Transacao(numeroPedido, pedido.calcularTotal() + pedido.calcularGorjeta());
+        Transacao transacao = new Transacao(numeroPedido, pedido.calcularTotalComDesconto() + pedido.calcularGorjeta());
 
         if (caixa.existeTransacao(transacao)){
             throw new IllegalStateException("Transação já registrada para este pedido!");
@@ -64,7 +56,6 @@ public class RestauranteFacade {
     public double calcularTotalGorjetas(){
         return caixa.calcularTotalGorjetas();
     }
-
 
     public boolean existeTransacao(Transacao transacao) {
         return caixa.existeTransacao(transacao);

@@ -42,12 +42,7 @@ public class Caixa {
     }
 
     public boolean registrarTransacao(Transacao transacao) {
-        boolean foiAdicionada = transacoes.add(transacao);
-
-        if (!foiAdicionada) {
-            System.out.println("Esse pedido já existe!");
-        }
-        return foiAdicionada;
+        return transacoes.add(transacao);
     }
 
     public boolean existeTransacao(Transacao transacao) {

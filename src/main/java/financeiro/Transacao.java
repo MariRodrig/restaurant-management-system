@@ -1,7 +1,5 @@
 package financeiro;
 
-import lombok.Setter;
-
 public class Transacao {
 
     private final int numeroDoPedido;
@@ -17,9 +15,6 @@ public class Transacao {
         return numeroDoPedido;
     }
 
-    public double getValorTransacao() {
-        return valorTransacao;
-    }
 
     @Override
     public boolean equals(Object obj) {

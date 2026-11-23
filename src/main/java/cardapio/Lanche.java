@@ -21,40 +21,20 @@ public class Lanche implements ItemCardapio {
         setIngredientes(ingredientes);
     }
 
-    public boolean isQueijo() {
-        return queijo;
-    }
-
     public void setQueijo(boolean queijo) {
         this.queijo = queijo;
-    }
-
-    public boolean isAlface() {
-        return alface;
     }
 
     public void setAlface(boolean alface) {
         this.alface = alface;
     }
 
-    public boolean isTomate() {
-        return tomate;
-    }
-
     public void setTomate(boolean tomate) {
         this.tomate = tomate;
     }
 
-    public boolean isCebola() {
-        return cebola;
-    }
-
     public void setCebola(boolean cebola) {
         this.cebola = cebola;
-    }
-
-    public String getIngredientes() {
-        return ingredientes;
     }
 
     public void setIngredientes(String ingredientes) {
@@ -64,10 +44,6 @@ public class Lanche implements ItemCardapio {
     @Override
     public String toString() {
         return nome + " - R$ " + String.format("%.2f", preco);
-    }
-
-    public String getNome() {
-        return nome;
     }
 
     public void setNome(String nome) {

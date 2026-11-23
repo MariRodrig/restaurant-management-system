@@ -1,5 +1,6 @@
 package console;
 
+import exception.RestauranteException;
 import facade.RestauranteFacade;
 import pedido.Pedido;
 import pedido.StatusPedido;
@@ -17,149 +18,142 @@ public class Menu {
             opcao = menuConsole.lerOpcao();
 
             switch (opcao) {
-                case 1 -> {
-                    String nomeCliente = menuConsole.lerNomeCliente();
+                case 1 -> registrarPedido(menuConsole, restauranteFacade);
 
-                    Pedido pedido = restauranteFacade.criarPedido(nomeCliente);
-
-                    menuConsole.registrarItens(pedido);
-                }
-
-                case 2 -> {
-                    restauranteFacade.listarPedidos();
-
-                    int numeroPedido = menuConsole.escolherPedido();
-
-                    Pedido pedidoEncontrado = restauranteFacade.buscarPedido(numeroPedido);
-
-                    if (pedidoEncontrado != null) {
-
-                        menuConsole.exibirMensagem("Pedido selecionado:");
-                        menuConsole.exibirMensagem(pedidoEncontrado.toString());
-
-                        if (pedidoEncontrado.getStatusPedido() == StatusPedido.ABERTO) {
-
-                            int opcaoModificar = menuConsole.opcaoModificarPedido();
-
-                            try {
-                                switch (opcaoModificar) {
-
-                                    case 1 -> menuConsole.registrarItens(pedidoEncontrado);
-
-                                    case 2 -> {
-                                        int itemEscolhido = menuConsole.escolherItemRemover(pedidoEncontrado);
-
-                                        if (itemEscolhido != -1) {
-                                            pedidoEncontrado.removerItem(itemEscolhido - 1);
-                                        }
-                                    }
-
-                                    case 0 -> menuConsole.exibirMensagem("Voltar");
-
-                                    default -> menuConsole.exibirMensagem("Opção inválida.");
-                                }
-
-                            } catch (IllegalStateException e) {
-                                menuConsole.exibirMensagem(e.getMessage());
-                            }
-
-                        } else {
-                            menuConsole.exibirMensagem("Este pedido não pode ser modificado.");
-                        }
-
-                    } else {
-                        menuConsole.exibirMensagem("Pedido não encontrado.");
-                    }
-                }
+                case 2 -> consultarPedido(restauranteFacade, menuConsole);
 
                 case 3 -> restauranteFacade.listarPedidos();
 
-                case 4 -> {
-                    int numeroPedido = menuConsole.escolherPedido();
-                    Pedido pedidoEncontrado = restauranteFacade.buscarPedido(numeroPedido);
+                case 4 -> finalizarPedido(menuConsole, restauranteFacade);
 
-                    if (pedidoEncontrado != null) {
+                case 5 -> cancelarPedido(menuConsole, restauranteFacade);
 
-                        if (pedidoEncontrado.getStatusPedido() == StatusPedido.ABERTO) {
+                case 6 -> fecharCaixa(restauranteFacade, menuConsole);
 
-                            try {
+                case 7 -> aplicarDesconto(menuConsole, restauranteFacade);
 
-                                double percentualGorjeta = menuConsole.escolherGorjeta();
-                                pedidoEncontrado.setPercentualGorjeta(percentualGorjeta);
-
-                                double valorGorjeta = pedidoEncontrado.calcularGorjeta();
-
-                                menuConsole.exibirMensagem("Valor da gorjeta: R$ " + valorGorjeta);
-
-                                double totalComGorjeta = pedidoEncontrado.calcularTotal() + valorGorjeta;
-
-                                menuConsole.exibirMensagem("Total com gorjeta: R$ " + totalComGorjeta);
-
-                                restauranteFacade.finalizarPedido(numeroPedido);
-                                menuConsole.exibirMensagem("Pedido concluído com sucesso!");
-
-                            } catch (IllegalArgumentException | IllegalStateException e) {
-                                menuConsole.exibirMensagem(e.getMessage());
-                            }
-
-                        } else {
-                            menuConsole.exibirMensagem("Este pedido não pode ser concluído.");
-                        }
-
-                        } else{
-                            menuConsole.exibirMensagem("Pedido não encontrado.");
-                        }
-                    }
-
-                    case 5 -> {
-                        int numeroPedido = menuConsole.escolherPedido();
-
-                        try {
-                            restauranteFacade.cancelarPedido(numeroPedido);
-                            menuConsole.exibirMensagem("Pedido cancelado com sucesso!");
-
-                        } catch (IllegalArgumentException | IllegalStateException e) {
-                            menuConsole.exibirMensagem(e.getMessage());
-                        }
-                    }
-
-                    case 6 -> {
-                        double totalDoDia = restauranteFacade.calcularTotalDoDia();
-                        double totalGorjetas = restauranteFacade.calcularTotalGorjetas();
-
-                        double faturamentoTotal = totalDoDia + totalGorjetas;
-
-                        menuConsole.exibirMensagem("Total vendido no dia: R$ " + totalDoDia);
-                        menuConsole.exibirMensagem("Total de gorjetas: R$ " + totalGorjetas);
-                        menuConsole.exibirMensagem("Faturamento total: R$ " + faturamentoTotal);
-
-                    }
-
-                    case 7 -> {
-                        int numeroPedido = menuConsole.escolherPedido();
-
-                        try {
-                            double percentual = menuConsole.escolherDesconto();
-                            Pedido pedido = restauranteFacade.buscarPedido(numeroPedido);
-
-                            if (pedido == null) {
-                                menuConsole.exibirMensagem("Pedido não encontrado.");
-                            } else {
-                                pedido.aplicarDesconto(percentual);
-
-                                menuConsole.exibirMensagem(
-                                        "Total com desconto: R$ " + pedido.calcularTotalComDesconto()
-                                );
-                            }
-                        }catch  (IllegalArgumentException | IllegalStateException e) {
-                            menuConsole.exibirMensagem(e.getMessage());
-                        }
-                    }
-                    case 0 -> menuConsole.exibirMensagem("Programa finalizado.");
-                    default -> menuConsole.exibirMensagem("Opção inválida. Digite uma das opções válidas.");
-                }
+                case 0 -> menuConsole.exibirMensagem("Programa finalizado.");
+                default -> menuConsole.exibirMensagem("Opção inválida. Digite uma das opções válidas.");
             }
-            while (opcao != 0) ;
+        }
+        while (opcao != 0);
 
+    }
+
+    private static void registrarPedido(MenuConsole menuConsole, RestauranteFacade restauranteFacade) {
+        String nomeCliente = menuConsole.lerNomeCliente();
+
+        Pedido pedido = restauranteFacade.criarPedido(nomeCliente);
+
+        menuConsole.registrarItens(pedido);
+    }
+
+    private static void consultarPedido(RestauranteFacade restauranteFacade, MenuConsole menuConsole) {
+        restauranteFacade.listarPedidos();
+
+        int numeroPedido = menuConsole.escolherPedido("consultar ou modificar");
+
+        try {
+            Pedido pedidoEncontrado = restauranteFacade.buscarPedido(numeroPedido);
+
+            menuConsole.exibirMensagem("Pedido selecionado:");
+            menuConsole.exibirMensagem(pedidoEncontrado.toString());
+
+            if (pedidoEncontrado.getStatusPedido() == StatusPedido.ABERTO) {
+
+                int opcaoModificar = menuConsole.opcaoModificarPedido();
+
+                switch (opcaoModificar) {
+
+                    case 1 -> menuConsole.registrarItens(pedidoEncontrado);
+
+                    case 2 -> {
+                        int itemEscolhido = menuConsole.escolherItemRemover(pedidoEncontrado);
+
+                        if (itemEscolhido != -1) {
+                            pedidoEncontrado.removerItem(itemEscolhido - 1);
+                        }
+                    }
+
+                    case 0 -> menuConsole.exibirMensagem("Voltar");
+
+                    default -> menuConsole.exibirMensagem("Opção inválida.");
+                }
+
+            } else {
+                menuConsole.exibirMensagem("Este pedido não pode ser modificado.");
+            }
+
+        } catch (RestauranteException | IllegalStateException e) {
+            menuConsole.exibirMensagem(e.getMessage());
         }
     }
+
+    private static void finalizarPedido(MenuConsole menuConsole, RestauranteFacade restauranteFacade) {
+        int numeroPedido = menuConsole.escolherPedido("finalizar");
+
+        try {
+            Pedido pedidoEncontrado = restauranteFacade.buscarPedido(numeroPedido);
+
+            if (pedidoEncontrado.getStatusPedido() == StatusPedido.ABERTO) {
+
+                double percentualGorjeta = menuConsole.escolherGorjeta();
+                pedidoEncontrado.setPercentualGorjeta(percentualGorjeta);
+
+                double valorGorjeta = pedidoEncontrado.calcularGorjeta();
+                menuConsole.exibirMensagem("Valor da gorjeta: R$ " + valorGorjeta);
+
+                double totalComGorjeta = pedidoEncontrado.calcularTotalComDesconto() + valorGorjeta;
+                menuConsole.exibirMensagem("Total com gorjeta: R$ " + totalComGorjeta);
+
+                restauranteFacade.finalizarPedido(numeroPedido);
+                menuConsole.exibirMensagem("Pedido concluído com sucesso!");
+
+            } else {
+                menuConsole.exibirMensagem("Este pedido não pode ser concluído.");
+            }
+
+        } catch (RestauranteException | IllegalArgumentException | IllegalStateException e) {
+            menuConsole.exibirMensagem(e.getMessage());
+        }
+    }
+
+    private static void cancelarPedido(MenuConsole menuConsole, RestauranteFacade restauranteFacade) {
+        int numeroPedido = menuConsole.escolherPedido("cancelar");
+
+        try {
+            restauranteFacade.cancelarPedido(numeroPedido);
+            menuConsole.exibirMensagem("Pedido cancelado com sucesso!");
+
+        } catch (RestauranteException | IllegalArgumentException | IllegalStateException e) {
+            menuConsole.exibirMensagem(e.getMessage());
+        }
+    }
+
+    private static void fecharCaixa(RestauranteFacade restauranteFacade, MenuConsole menuConsole) {
+        double totalDoDia = restauranteFacade.calcularTotalDoDia();
+        double totalGorjetas = restauranteFacade.calcularTotalGorjetas();
+
+        double faturamentoTotal = totalDoDia + totalGorjetas;
+
+        menuConsole.exibirMensagem("Total vendido no dia: R$ " + totalDoDia);
+        menuConsole.exibirMensagem("Total de gorjetas: R$ " + totalGorjetas);
+        menuConsole.exibirMensagem("Faturamento total: R$ " + faturamentoTotal);
+    }
+
+    private static void aplicarDesconto(MenuConsole menuConsole, RestauranteFacade restauranteFacade) {
+        int numeroPedido = menuConsole.escolherPedido("selecionar para aplicar desconto");
+
+        try {
+            Pedido pedido = restauranteFacade.buscarPedido(numeroPedido);
+
+            double percentual = menuConsole.escolherDesconto();
+            pedido.aplicarDesconto(percentual);
+
+            menuConsole.exibirMensagem("Total com desconto: R$ " + pedido.calcularTotalComDesconto());
+
+        } catch (RestauranteException | IllegalArgumentException | IllegalStateException e) {
+            menuConsole.exibirMensagem(e.getMessage());
+        }
+    }
+}
