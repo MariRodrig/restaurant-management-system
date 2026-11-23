@@ -20,11 +20,10 @@ public class Transacao {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null) return false;
-        if (!(obj instanceof Transacao)){
+        if (!(obj instanceof Transacao outraTransacao)){
             return false;
         }
 
-        Transacao outraTransacao = (Transacao) obj;
         return this.numeroDoPedido == outraTransacao.getNumeroDoPedido();
     }
 

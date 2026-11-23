@@ -29,16 +29,16 @@ public class RestauranteFacade {
         return gerenciadorPedidos.buscarPedido(numeroPedido);
     }
 
-    public Pedido  cancelarPedido(int numeroPedido) {
-        return gerenciadorPedidos.cancelarPedido(numeroPedido);
+    public void cancelarPedido(int numeroPedido) {
+        gerenciadorPedidos.cancelarPedido(numeroPedido);
     }
 
-    public Pedido finalizarPedido(int numeroPedido) {
+    public void finalizarPedido(int numeroPedido) {
         Pedido pedido = gerenciadorPedidos.buscarPedido(numeroPedido);
 
         Transacao transacao = new Transacao(numeroPedido, pedido.calcularTotalComDesconto() + pedido.calcularGorjeta());
 
-        if (caixa.existeTransacao(transacao)){
+        if (caixa.existeTransacao(transacao)) {
             throw new IllegalStateException("Transação já registrada para este pedido!");
         }
 
@@ -46,14 +46,12 @@ public class RestauranteFacade {
 
         boolean foiRegistrada = caixa.registrarTransacao(transacao);
 
-        if (!foiRegistrada){
+        if (!foiRegistrada) {
             throw new IllegalStateException("Transação já registrada para este pedido!");
         }
-
-        return pedido;
     }
 
-    public double calcularTotalGorjetas(){
+    public double calcularTotalGorjetas() {
         return caixa.calcularTotalGorjetas();
     }
 

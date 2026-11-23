@@ -52,20 +52,18 @@ public class GerenciadorPedidos {
         }
     }
 
-    public Pedido finalizarPedido(int numeroPedido) {
+    public void finalizarPedido(int numeroPedido) {
 
         Pedido pedido = buscarPedido(numeroPedido);
 
         pedido.finalizarPedido();
-        return pedido;
     }
 
 
-    public Pedido cancelarPedido(int numeroPedido) {
+    public void cancelarPedido(int numeroPedido) {
 
         Pedido pedido = buscarPedido(numeroPedido);
 
         pedido.cancelarPedido();
-        return pedido;
     }
 }
