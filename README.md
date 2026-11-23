@@ -1,88 +1,79 @@
 # Restaurant Management System
 
-Projeto desenvolvido em Java durante o bootcamp, com o objetivo de colocar em prática conceitos de Programação Orientada a Objetos, Collections, tratamento de exceções, padrões de projeto e testes unitários.
+Sistema de gerenciamento de restaurante desenvolvido em **Java 17**, inicialmente como projeto de um bootcamp e aprimorado posteriormente.
 
-O sistema simula o gerenciamento de um restaurante por meio de um menu no console, permitindo registrar, consultar, modificar e cancelar pedidos.
+A aplicação funciona pelo console e permite cadastrar pedidos, personalizar lanches, aplicar descontos, adicionar gorjetas e realizar o fechamento financeiro do dia.
+
+O objetivo foi praticar Programação Orientada a Objetos, Collections, padrões de projeto, tratamento de exceções e testes unitários.
 
 ## Funcionalidades
 
-- Cadastro de pedidos com identificação automática e nome do cliente.
+- Cadastro, consulta e cancelamento de pedidos.
 - Cardápio com X-Burger, X-Salada e X-Bacon.
-- Personalização dos lanches, permitindo retirar ingredientes sem alterar o preço.
-- Inclusão de adicionais pagos, como cheddar e bacon extra.
-- Inclusão e remoção de itens em pedidos existentes.
-- Cancelamento de pedidos, desconsiderando seus valores do total vendido.
-- Cálculo do total de cada pedido e do faturamento do dia.
-- Contagem das diferentes combinações de lanches vendidos.
-- Tratamento de entradas inválidas, permitindo novas tentativas sem interromper o programa.
-- Aplicação de descontos percentuais nos pedidos. 
-- Validação de descontos entre 0% e 100%. 
-- Restrição de descontos em pedidos finalizados ou cancelados. 
-- Cálculo da gorjeta sobre o valor após o desconto. 
-- Fechamento financeiro considerando os descontos aplicados.
+- Personalização de ingredientes e adicionais pagos.
+- Inclusão e remoção de itens.
+- Controle de pedidos com Enum: ABERTO, FINALIZADO e CANCELADO.
+- Aplicação de descontos percentuais.
+- Cálculo de gorjetas sobre o valor com desconto.
+- Fechamento do dia com total de vendas e gorjetas.
+- Validação de entradas e regras de negócio.
 
-## Organização do projeto
+## Tecnologias e conceitos
 
-O projeto foi dividido em quatro pacotes:
+- **Java 17 e POO:** classes, interfaces, encapsulamento e polimorfismo.
+- **Maven:** gerenciamento do projeto e geração do JAR.
+- **Collections:** ArrayList, HashMap e HashSet.
+- **Factory:** centraliza a criação dos lanches.
+- **Decorator:** permite adicionar extras aos lanches.
+- **Facade:** simplifica o acesso às operações do restaurante.
+- **Enum:** controla os status dos pedidos.
+- **Exceções personalizadas:** tratamento de erros relacionados aos pedidos.
+- **Extract Method:** refatoração para organizar a classe Menu.
+- **JUnit 5:** testes unitários das funcionalidades e regras de negócio.
 
-- **app:** contém `MenuConsole` e `RestauranteFacade`, responsáveis pela interação com o usuário e pela comunicação entre as funcionalidades.
-- **cardapio:** contém a interface `ItemCardapio`, a classe `Lanche`, a `LancheFactory` e os Decorators dos adicionais.
-- **pedido:** contém `Pedido` e `GerenciadorPedidos`, responsáveis pelos itens, armazenamento e gerenciamento dos pedidos.
-- **menu:** contém a classe `Menu`, responsável por iniciar o programa e controlar o fluxo principal.
+## Estrutura do projeto
 
-## Conceitos aplicados
+O código está organizado nos seguintes pacotes:
 
-- **POO:** encapsulamento, interfaces, herança e polimorfismo.
-- **Factory:** centraliza a criação dos lanches do cardápio.
-- **Decorator:** permite acrescentar adicionais aos lanches, atualizando suas descrições e preços.
-- **Facade:** centraliza o acesso às operações de gerenciamento do restaurante.
-- **Collections:** `ArrayList` para os itens, `HashMap` para armazenar os pedidos e `HashSet` para identificar combinações diferentes.
-- **Tratamento de exceções:** utilização de `try-catch`, `InputMismatchException` e validações para evitar entradas inválidas.
-- **JUnit 5:** testes para validação de preço, cálculo com adicional e rejeição de nome de cliente nulo.
+- `cardapio`: lanches, ingredientes e adicionais.
+- `pedido`: pedidos e regras de gerenciamento.
+- `financeiro`: caixa e transações.
+- `facade`: acesso às operações do restaurante.
+- `console`: menu e interação com o usuário.
+- `exception`: exceções personalizadas.
 
 ## Como executar
-O projeto utiliza Java 17 e Maven.
 
-### Opção 1 — Pelo IntelliJ IDEA
-1. Clone o repositório e abra o projeto no IntelliJ IDEA.
-2. Aguarde o carregamento das dependências do Maven.
-3. Execute o método main() da classe Menu.
-4. Utilize as opções exibidas no console.
-### Opção 2 — Pelo arquivo JAR
-1. Certifique-se de que o Java 17 e o Maven estejam instalados.
-2. Abra o terminal na pasta raiz do projeto.
-3. Gere o executável:
-   mvn clean package
-4. Execute o arquivo gerado:
-   java -jar target/restaurant-management-system-1.0-SNAPSHOT.jar
+**Requisito:** Java 17 ou superior.
 
-## Demonstração do projeto
-Neste vídeo, apresento o funcionamento do sistema de gerenciamento de restaurante desenvolvido em Java.
+### Pelo IntelliJ IDEA
 
-Também explico a organização do código e a aplicação de conceitos como orientação a objetos, padrões de projeto, Collections, enums, tratamento de exceções, refatoração e testes unitários com JUnit 5.
+1. Clone o repositório.
+2. Abra o projeto no IntelliJ.
+3. Execute o método `main()` da classe `Menu`.
 
-🎥 [Assistir à demonstração do projeto](https://youtu.be/XWoI5oHyg3E)
+### Pelo JAR executável
+
+1. Acesse a seção [Releases](../../releases/latest).
+2. Baixe o arquivo `restaurant-management-system-1.1.1.jar`.
+3. Abra o terminal na pasta do arquivo e execute:
+
+```bash
+java -jar restaurant-management-system-1.1.1.jar
+```
+
+## Demonstração
+
+Neste vídeo, apresento a estrutura do projeto, os principais conceitos utilizados e o funcionamento do sistema.
+
+🎥 [Assistir à demonstração no YouTube](https://youtu.be/XWoI5oHyg3E)
 
 ## Testes
 
-O projeto possui testes automatizados utilizando **JUnit 5**, abrangendo validações, regras de negócio e cálculos financeiros.
+O projeto utiliza **JUnit 5** para testar cálculos, validações, status dos pedidos e exceções.
 
-Os testes verificam cenários como rejeição de preços negativos, cálculo de lanches com adicionais, validação de nomes de clientes e operações relacionadas aos pedidos.
+A funcionalidade de descontos também foi desenvolvida utilizando **TDD**, seguindo o ciclo RED → GREEN → REFACTOR.
 
-### Desenvolvimento orientado a testes (TDD)
+## Próximos passos
 
-A funcionalidade de descontos foi desenvolvida utilizando a metodologia **TDD (Test-Driven Development)**, seguindo o ciclo **RED → GREEN → REFACTOR**.
-
-Foram implementados testes para validar:
-
-- Cálculo de descontos percentuais.
-- Rejeição de descontos negativos ou superiores a 100%.
-- Restrição de descontos em pedidos finalizados ou cancelados.
-- Cálculo de gorjetas considerando os descontos.
-- Integração dos descontos ao fechamento financeiro.
-
-## Considerações finais
-
-O projeto foi desenvolvido em etapas, começando pela criação dos lanches e pedidos, passando pela implementação dos padrões de projeto e finalizando com a personalização, modificação dos pedidos e tratamento de entradas inválidas.
-
-Durante o desenvolvimento, pude praticar a organização das classes, a separação de responsabilidades e a aplicação dos conceitos estudados no bootcamp.
+A próxima etapa será evoluir o projeto para uma **API REST com Spring Boot, JPA e PostgreSQL**, aproveitando as regras de negócio já implementadas.
