@@ -1,6 +1,7 @@
 package pedido;
 
 import cardapio.ItemCardapio;
+import exception.OperacaoPedidoInvalidaException;
 
 import java.util.ArrayList;
 
@@ -35,10 +36,6 @@ public class Pedido {
         return identificador;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
     public void setNome(String nome) {
         if (nome == null || nome.isBlank()) {
             throw new IllegalArgumentException("Nome do cliente inválido.");
@@ -49,9 +46,7 @@ public class Pedido {
     public void setPercentualGorjeta(double percentualGorjeta) {
 
         if (statusPedido != StatusPedido.ABERTO) {
-            throw new IllegalStateException(
-                    "Não é possível alterar a gorjeta de um pedido finalizado ou cancelado."
-            );
+            throw new OperacaoPedidoInvalidaException("Não é possível alterar a gorjeta de um pedido finalizado ou cancelado.");
         }
 
         if (percentualGorjeta < 0) {
@@ -64,7 +59,7 @@ public class Pedido {
 
     public void adicionarItem(ItemCardapio itemCardapio) {
         if (statusPedido != StatusPedido.ABERTO) {
-            throw new IllegalStateException("Não é possível adicionar itens a este pedido.");
+            throw new OperacaoPedidoInvalidaException("Não é possível adicionar itens a este pedido.");
         }
         itens.add(itemCardapio);
     }
@@ -91,7 +86,7 @@ public class Pedido {
 
     public void removerItem(int indice) {
         if (statusPedido != StatusPedido.ABERTO) {
-            throw new IllegalStateException("Não é possível remover itens deste pedido.");
+            throw new OperacaoPedidoInvalidaException("Não é possível remover itens deste pedido.");
         }
         if (indice >= 0 && indice < itens.size()) {
             itens.remove(indice);
@@ -103,20 +98,20 @@ public class Pedido {
 
     public void finalizarPedido() {
         if (statusPedido == StatusPedido.FINALIZADO) {
-            throw new IllegalStateException("Pedido já foi finalizado anteriormente.");
+            throw new OperacaoPedidoInvalidaException("Pedido já foi finalizado anteriormente.");
         }
         if (statusPedido == StatusPedido.CANCELADO) {
-            throw new IllegalStateException("Não é possível finalizar um pedido cancelado.");
+            throw new OperacaoPedidoInvalidaException("Não é possível finalizar um pedido cancelado.");
         }
         this.statusPedido = StatusPedido.FINALIZADO;
     }
 
     public void cancelarPedido() {
         if (statusPedido == StatusPedido.FINALIZADO) {
-            throw new IllegalStateException("Pedido já foi finalizado, não é possível cancelar.");
+            throw new OperacaoPedidoInvalidaException("Pedido já foi finalizado, não é possível cancelar.");
         }
         if (statusPedido == StatusPedido.CANCELADO) {
-            throw new IllegalStateException("Pedido já foi cancelado.");
+            throw new OperacaoPedidoInvalidaException("Pedido já foi cancelado.");
         }
         this.statusPedido = StatusPedido.CANCELADO;
     }
@@ -127,7 +122,7 @@ public class Pedido {
         }
 
         if (statusPedido != StatusPedido.ABERTO){
-            throw new IllegalStateException("Não é possível aplicar desconto em um pedido fechado");
+            throw new OperacaoPedidoInvalidaException("Não é possível aplicar desconto em um pedido fechado");
         }
 
         this.percentualDesconto = percentual;

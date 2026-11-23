@@ -1,11 +1,9 @@
 package pedido;
 
-import cardapio.ItemCardapio;
+import exception.PedidoNaoEncontradoException;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class GerenciadorPedidos {
 
@@ -30,8 +28,15 @@ public class GerenciadorPedidos {
 
 
     public Pedido buscarPedido(int numero) {
-        return pedidos.get(numero);
+        Pedido pedido = pedidos.get(numero);
+
+        if (pedido == null) {
+            throw new PedidoNaoEncontradoException("Pedido não encontrado");
+        }
+
+        return pedido;
     }
+
 
     public void listarPedidos() {
         boolean isPedidoEncontrado = false;
@@ -47,48 +52,20 @@ public class GerenciadorPedidos {
         }
     }
 
-    public void listarCombinacoes() {
-        Set<String> combinacoes = new HashSet<>();
-
-        for (Pedido pedido : pedidos.values()) {
-            for (ItemCardapio lanche : pedido.getItens()) {
-                combinacoes.add(lanche.getDescricao());
-            }
-        }
-
-        System.out.println("=== COMBINAÇÕES VENDIDAS ===");
-
-        for (String combinacao : combinacoes) {
-            System.out.println(combinacao);
-        }
-
-        System.out.println("Total de combinações diferentes: " + combinacoes.size());
-    }
-
     public Pedido finalizarPedido(int numeroPedido) {
 
-        Pedido pedido = pedidos.get(numeroPedido);
+        Pedido pedido = buscarPedido(numeroPedido);
 
-        if (pedido != null) {
-            pedido.finalizarPedido();
-        } else {
-            throw new IllegalArgumentException("Pedido não encontrado");
-        }
-
+        pedido.finalizarPedido();
         return pedido;
     }
 
 
     public Pedido cancelarPedido(int numeroPedido) {
 
-        Pedido pedido = pedidos.get(numeroPedido);
+        Pedido pedido = buscarPedido(numeroPedido);
 
-        if (pedido != null) {
-            pedido.cancelarPedido();
-        } else {
-            throw new IllegalArgumentException("Pedido não encontrado");
-        }
+        pedido.cancelarPedido();
         return pedido;
     }
-
 }
