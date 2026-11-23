@@ -53,17 +53,15 @@ O projeto utiliza Java 17 e Maven.
 2. Abra o terminal na pasta raiz do projeto.
 3. Gere o executável:
    mvn clean package
-
-
 4. Execute o arquivo gerado:
    java -jar target/restaurant-management-system-1.0-SNAPSHOT.jar
+
 ## Demonstração do projeto
+Neste vídeo, apresento o funcionamento do sistema de gerenciamento de restaurante desenvolvido em Java.
 
-O vídeo apresenta as funcionalidades implementadas nesta primeira etapa do bootcamp.
+Também explico a organização do código e a aplicação de conceitos como orientação a objetos, padrões de projeto, Collections, enums, tratamento de exceções, refatoração e testes unitários com JUnit 5.
 
-Para melhor visualização do código, recomendamos assistir ao vídeo em 1080p (Full HD).
-
-🎥 [Assistir à demonstração do projeto](https://youtu.be/ElDz3q07NQU)
+🎥 [Assistir à demonstração do projeto](https://youtu.be/XWoI5oHyg3E)
 
 ## Testes
 
