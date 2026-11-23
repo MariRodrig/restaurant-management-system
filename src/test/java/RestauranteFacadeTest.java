@@ -1,4 +1,6 @@
 import cardapio.LancheFactory;
+import exception.OperacaoPedidoInvalidaException;
+import exception.PedidoNaoEncontradoException;
 import facade.RestauranteFacade;
 import financeiro.Transacao;
 import org.junit.jupiter.api.Test;
@@ -28,8 +30,7 @@ public class RestauranteFacadeTest {
 
     @Test
     void naoDeveFinalizarPedidoInexistente() {
-
-        assertThrows(IllegalArgumentException.class, () -> restauranteFacade.finalizarPedido(999));
+        assertThrows(PedidoNaoEncontradoException.class, () -> restauranteFacade.finalizarPedido(999));
     }
 
     @Test
@@ -45,6 +46,6 @@ public class RestauranteFacadeTest {
         Pedido pedido =  restauranteFacade.criarPedido("Maria");
         restauranteFacade.cancelarPedido(pedido.getIdentificador());
 
-        assertThrows(IllegalStateException.class, () -> restauranteFacade.finalizarPedido(pedido.getIdentificador()));
+        assertThrows(OperacaoPedidoInvalidaException.class, () -> restauranteFacade.finalizarPedido(pedido.getIdentificador()));
     }
 }

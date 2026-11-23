@@ -1,6 +1,7 @@
 package pedido;
 
 import cardapio.LancheFactory;
+import exception.OperacaoPedidoInvalidaException;
 import financeiro.Caixa;
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +31,7 @@ public class PedidoTest {
         Pedido pedido = new Pedido(1, "Maria");
         pedido.finalizarPedido();
 
-        assertThrows(IllegalStateException.class, () -> pedido.finalizarPedido());
+        assertThrows(OperacaoPedidoInvalidaException.class, () -> pedido.finalizarPedido());
     }
 
 
@@ -39,7 +40,7 @@ public class PedidoTest {
         Pedido pedido = new Pedido(1, "Maria");
         pedido.cancelarPedido();
 
-        assertThrows(IllegalStateException.class, () -> pedido.cancelarPedido());
+        assertThrows(OperacaoPedidoInvalidaException.class, () -> pedido.cancelarPedido());
     }
 
     @Test
@@ -47,7 +48,7 @@ public class PedidoTest {
         Pedido pedido = new Pedido(1, "Maria");
         pedido.cancelarPedido();
 
-        assertThrows(IllegalStateException.class, () -> pedido.finalizarPedido());
+        assertThrows(OperacaoPedidoInvalidaException.class, () -> pedido.finalizarPedido());
     }
 
     @Test
@@ -63,7 +64,7 @@ public class PedidoTest {
         Pedido pedido = new Pedido(1, "Maria");
         pedido.finalizarPedido();
 
-        assertThrows(IllegalStateException.class, () -> pedido.cancelarPedido());
+        assertThrows(OperacaoPedidoInvalidaException.class, () -> pedido.cancelarPedido());
     }
 
     @Test
@@ -100,7 +101,7 @@ public class PedidoTest {
         Pedido pedido = new Pedido(1, "Maria");
 
         pedido.finalizarPedido();
-        assertThrows(IllegalStateException.class, () -> pedido.setPercentualGorjeta(5.0));
+        assertThrows(OperacaoPedidoInvalidaException.class, () -> pedido.setPercentualGorjeta(5.0));
     }
 
     @Test
@@ -108,7 +109,7 @@ public class PedidoTest {
         Pedido pedido = new Pedido(1, "Maria");
 
         pedido.cancelarPedido();
-        assertThrows(IllegalStateException.class, () -> pedido.setPercentualGorjeta(5.0));
+        assertThrows(OperacaoPedidoInvalidaException.class, () -> pedido.setPercentualGorjeta(5.0));
     }
 
     @Test
@@ -140,7 +141,7 @@ public class PedidoTest {
         Pedido pedido = new Pedido(1, "Maria");
 
         pedido.finalizarPedido();
-        assertThrows(IllegalStateException.class, () -> pedido.aplicarDesconto(10.0));
+        assertThrows(OperacaoPedidoInvalidaException.class, () -> pedido.aplicarDesconto(10.0));
     }
 
     @Test
@@ -149,7 +150,7 @@ public class PedidoTest {
 
         pedido.cancelarPedido();
 
-        assertThrows(IllegalStateException.class, () -> pedido.aplicarDesconto(10.0));
+        assertThrows(OperacaoPedidoInvalidaException.class, () -> pedido.aplicarDesconto(10.0));
     }
 
     @Test
